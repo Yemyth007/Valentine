@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Be My Valentine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffd6e7;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      position: relative;
+      width: 90%;
+      max-width: 320px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 22px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    #yesBtn {
+      background: #ff4f8b;
+      color: white;
+    }
+
+    #noBtn {
+      background: #ddd;
+      position: absolute;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .message {
+      margin-top: 12px;
+      font-size: 15px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <div id="questionBox">
+      <h2 id="questionText">Will you be my Valentine? ❤️</h2>
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+
+    <div id="resultBox" class="hidden">
+      <h2 id="resultText">Yay!! I knew you'd say yes 💕</h2>
+      <img src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif" alt="Love GIF">
+      <p id="customMsg" class="message">You just made my day 🥰</p>
+    </div>
+
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+
+    const questionBox = document.getElementById("questionBox");
+    const resultBox = document.getElementById("resultBox");
+
+    const questionText = document.getElementById("questionText");
+    const resultText = document.getElementById("resultText");
+    const customMsg = document.getElementById("customMsg");
+
+    function capitalizeName(name) {
+      return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    let name = params.get("name");
+    let message = params.get("msg");
+
+    if (name) {
+      name = capitalizeName(name);
+      questionText.innerText = `${name}, will you be my Valentine? ❤️`;
+      resultText.innerText = `Yay ${name}!! I knew you'd say yes 💕`;
+    }
+
+    if (message) {
+      customMsg.innerText = decodeURIComponent(message);
+    }
+
+    function moveNoButton() {
+      const card = document.querySelector(".card");
+
+      const maxX = card.offsetWidth - noBtn.offsetWidth;
+      const maxY = card.offsetHeight - noBtn.offsetHeight;
+
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+
+      noBtn.style.left = randomX + "px";
+      noBtn.style.top = randomY + "px";
+    }
+
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
+
+    yesBtn.addEventListener("click", () => {
+      questionBox.classList.add("hidden");
+      resultBox.classList.remove("hidden");
+    });
+  </script>
+
+</body>
+</html>
