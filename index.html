@@ -78,7 +78,8 @@
 
     <div id="resultBox" class="hidden">
       <h2 id="resultText">Yay!! I knew you'd say yes 💕</h2>
-      <img src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif" alt="Love GIF">
+      <!-- Hearts raining GIF -->
+      <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="Love Rain GIF">
       <p id="customMsg" class="message">You just made my day 🥰</p>
     </div>
 
@@ -95,10 +96,13 @@
     const resultText = document.getElementById("resultText");
     const customMsg = document.getElementById("customMsg");
 
+    let firstNoTouch = true;
+
     function capitalizeName(name) {
       return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
     }
 
+    // Read URL parameters
     const params = new URLSearchParams(window.location.search);
     let name = params.get("name");
     let message = params.get("msg");
@@ -124,10 +128,18 @@
 
       noBtn.style.left = randomX + "px";
       noBtn.style.top = randomY + "px";
+
+      // Change text after first interaction
+      if (firstNoTouch) {
+        noBtn.innerText = "You mean Yes?";
+        firstNoTouch = false;
+      }
     }
 
-    noBtn.addEventListener("mouseover", moveNoButton);
+    // Mobile + Desktop friendly interactions
     noBtn.addEventListener("touchstart", moveNoButton);
+    noBtn.addEventListener("click", moveNoButton);
+    noBtn.addEventListener("mouseover", moveNoButton);
 
     yesBtn.addEventListener("click", () => {
       questionBox.classList.add("hidden");
